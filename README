@@ -1,0 +1,17 @@
+# PyPlotInterface
+The goal of the PyPlotInterface class is to present an interface to a python process
+for plotting via matplotlib.
+
+The class creates and manages access to the python process via input and output redirection.
+All plotting is done by creating variables in the python process (scalars and numpy arrays)
+that represent the data handed to the C# interface. Rather than directly providing plot
+function the interface of the class exposes function generators which return function objects
+that perform the plotting itself. The reason for this is that it allows to first specify how
+a plot should look like and subsequently create multiple instances of this formatted plot
+without having to repass formatting parameters on each plot call.
+
+Data transfer is currently limited to scalars and 1D numpy arrays (via structs in
+InterConnect.cs). To transfer the data C# arrays are unfolded to list creation statement
+which are then executed on the interpreter and passed to np.array(). While this works
+reliably even for large arrays (>1e6 elements) it clearly isn't the most efficient approach.
+Data passing will therefore likely be changed in the future.
