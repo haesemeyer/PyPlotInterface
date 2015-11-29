@@ -15,3 +15,12 @@ InterConnect.cs). To transfer the data C# arrays are unfolded to list creation s
 which are then executed on the interpreter and passed to np.array(). While this works
 reliably even for large arrays (>1e6 elements) it clearly isn't the most efficient approach.
 Data passing will therefore likely be changed in the future.
+
+REQUIRES:
+PYTHON (www.python.org)
+MATPLOTLIB (http://matplotlib.org/)
+NUMPY (http://www.numpy.org/)
+
+
+Tested on:
+Mono, MacOSX 10.10, Python 3.5
