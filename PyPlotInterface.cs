@@ -448,7 +448,8 @@ namespace PythonInterface
         /// <param name="data">The histogram data</param>
         /// <param name="nBins">The desired number of bins</param>
         /// <param name="normalize">If set to <c>true</c> normalize histogram.</param>
-        private void CallHist(double[] data, int nBins, bool normalize)
+        /// <param name="cumulative">If set to <c>true</c> plot cumulative histogram</param>
+        private void CallHist(double[] data, int nBins, bool normalize, bool cumulative)
         {
             if (data == null)
                 throw new ArgumentNullException("data", "Data series has to exist");
@@ -456,7 +457,8 @@ namespace PythonInterface
                 throw new ArgumentOutOfRangeException("nBins", "nBins has to be >=1");
             string d_name = Transfer1DArray(data);
             string b_name = TransferValue(nBins);
-            Write("ax.hist({0},{1},normed={2});", d_name, b_name, normalize ? "True" : "False");
+            Write("ax.hist({0},{1},normed={2},cumulative={3});", d_name, b_name,
+                normalize ? "True" : "False", cumulative ? "True" : "False");
         }
 
 		/// <summary>
@@ -575,7 +577,7 @@ namespace PythonInterface
         /// <param name="gridStyle">Grid style.</param>
         /// <param name="despine">If set to <c>true</c> despine.</param>
         public Func<double[],int,string> MakeHistFunction(PlotDecorators plotLabels, bool normalize = false
-            ,AxesStyle gridStyle = AxesStyle.whitegrid, bool despine=true)
+            ,bool cumulative = false, AxesStyle gridStyle = AxesStyle.whitegrid, bool despine=true)
         {
             return (x, nbins) =>
             {
@@ -588,7 +590,7 @@ namespace PythonInterface
                 //plot
                 SetAxesStyle(gridStyle);//sets the plotting style
                 string figName = Subplots();//creates figure and axis
-                CallHist(x,nbins,normalize);//draw histogram
+                CallHist(x,nbins,normalize,cumulative);//draw histogram
                 Decorate(plotLabels);//adds title and axis label decorations
                 EndDrawCommands(figName);//forces figure refresh and terminates the plot commands line
                 if(despine)

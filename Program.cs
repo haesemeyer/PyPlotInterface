@@ -47,8 +47,8 @@ namespace PyPlotTest
             labels.YLabel = "Y";
             var Plot = py.MakePlotFunction(labels, PyPlotInterface.AxesStyle.dark);
             labels.Title = "Test of histogram plot";
-            labels.YLims = new Tuple<double, double>(0, 600);
-            var Hist = py.MakeHistFunction(labels);
+            labels.YLims = new Tuple<double, double>(0, 1.1);
+            var Hist = py.MakeHistFunction(labels,true,true);
             labels.Title = "Test of series plot";
             labels.YLims = new Tuple<double, double>(-5, 5);
             var PlotMulti = py.MakeSeriesPlotFunction(labels);
