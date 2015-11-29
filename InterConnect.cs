@@ -64,7 +64,7 @@ namespace PythonInterface
         {
             if (varName == "")
             {
-                VarName = "x" + lastID.ToString();
+                VarName = "s" + lastID.ToString();
                 lastID++;
             }
             else
@@ -193,7 +193,7 @@ namespace PythonInterface
         {
             if (varName == "")
             {
-                VarName = "x" + lastID.ToString();
+                VarName = "t" + lastID.ToString();
                 lastID++;
             }
             else
