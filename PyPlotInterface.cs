@@ -59,6 +59,73 @@ namespace PythonInterface
         }
     }
 
+    /// <summary>
+    /// Represents the color of a plot element in RGB
+    /// values btw. 0 and 1 inclusive
+    /// </summary>
+    public struct PlotColor
+    {
+        private double[] _rgb;
+
+        public double R
+        {
+            get
+            {
+                return _rgb[0];
+            }
+            set
+            {
+                if (value < 0 || value > 1)
+                    throw new ArgumentOutOfRangeException("R", "Color value has to be btw. 0 and 1");
+                if (_rgb == null)
+                    _rgb = new double[3];
+                _rgb[0] = value;
+            }
+        }
+
+        public double G
+        {
+            get
+            {
+                return _rgb[1];
+            }
+            set
+            {
+                if (value < 0 || value > 1)
+                    throw new ArgumentOutOfRangeException("G", "Color value has to be btw. 0 and 1");
+                if (_rgb == null)
+                    _rgb = new double[3];
+                _rgb[1] = value;
+            }
+        }
+
+        public double B
+        {
+            get
+            {
+                return _rgb[2];
+            }
+            set
+            {
+                if (value < 0 || value > 1)
+                    throw new ArgumentOutOfRangeException("B", "Color value has to be btw. 0 and 1");
+                if (_rgb == null)
+                    _rgb = new double[3];
+                _rgb[2] = value;
+            }
+        }
+
+
+
+        public PlotColor(double r, double g, double b)
+        {
+            _rgb = new double[3];
+            R = r;
+            G = g;
+            B = b;
+        }
+    }
+
 
 
 
