@@ -138,4 +138,68 @@ namespace PythonInterface
         }
     }//NumpyArray1D
 
+    /// <summary>
+    /// Represents a (strongly typed) python tuple
+    /// </summary>
+    internal struct PyTuple<T> : PyObject<T[]> where T : struct
+    {
+        private static int lastID = 0;
+
+        public T[] Data{ get; private set; }
+
+        /// <summary>
+        /// The name of the numpy variable
+        /// </summary>
+        public string VarName{get;private set;}
+
+        public string EncodingStatement
+        {
+            get
+            {
+                //TODO: It is unclear what the maximum length statement
+                //would be that we can "send over the wire" - have tested
+                //arrays with 5e6 elements which worked fine but a better
+                //approac might be to return a string[] of multiple statement
+                //i.e. appends for long arrays!
+                //In that case we will have to decide on what to do with
+                //the ToString() override
+                if (Data == null || Data.Length == 0)
+                    return "";
+                StringBuilder sd = new StringBuilder(Data.Length * 2 + 10);
+                sd.Append(VarName);
+                sd.Append('=');
+                sd.Append('(');
+                //add data to statement
+                foreach (T d in Data)
+                {
+                    sd.Append(d.ToString() + ",");
+                }
+                sd.Append(')');//close bracket
+                return sd.ToString();
+            }
+        }
+
+        public override string ToString()
+        {
+            return EncodingStatement;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PythonProcess.PyTuple"/> struct.
+        /// </summary>
+        /// <param name="data">The data in the array</param>
+        /// <param name="varName">The name of the tuple variable</param>
+        public PyTuple(T[] data, string varName = "")
+        {
+            if (varName == "")
+            {
+                VarName = "x" + lastID.ToString();
+                lastID++;
+            }
+            else
+                VarName = varName;
+            Data = data;
+        }
+    }//PyTuple
+
 }
