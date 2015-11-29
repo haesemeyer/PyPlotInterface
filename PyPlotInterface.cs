@@ -609,6 +609,8 @@ namespace PythonInterface
         /// <param name="figName">Figure name.</param>
         public void CloseFigure(string figName)
         {
+            if (IsDisposed)
+                throw new ObjectDisposedException("PyPlotInterface");
             WriteLine("{0}.close({1})", PL, figName);
         }
 
@@ -617,6 +619,8 @@ namespace PythonInterface
         /// </summary>
         public void CloseAllFigures()
         {
+            if (IsDisposed)
+                throw new ObjectDisposedException("PyPlotInterface");
             WriteLine("{0}.close('all')", PL);
         }
 
