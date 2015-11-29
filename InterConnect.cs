@@ -30,7 +30,7 @@ using System.Text;
 
 namespace PythonInterface
 {
-    public interface PyObject<T>
+    internal interface PyObject<T>
     {
         T Data{ get;}
 
@@ -39,7 +39,7 @@ namespace PythonInterface
         string EncodingStatement{get;}
     }
 
-    public struct PyScalar<T> : PyObject<T> where T : struct, IComparable, IComparable<T>
+    internal struct PyScalar<T> : PyObject<T> where T : struct, IComparable, IComparable<T>
     {
         private static int lastID = 0;
 
@@ -77,7 +77,7 @@ namespace PythonInterface
     /// <summary>
     /// Represents a Numpy array as a python statement
     /// </summary>
-    public struct NumpyArray1D : PyObject<double[]>
+    internal struct NumpyArray1D : PyObject<double[]>
     {
         private static int lastID = 0;
 
