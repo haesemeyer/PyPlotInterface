@@ -142,14 +142,22 @@ namespace PythonInterface
 		/// Creates a new PyPlotInterface
 		/// </summary>
 		/// <param name="useSeaborn">If set to <c>true</c> use seaborn.</param>
-		public PyPlotInterface(bool useSeaborn) : this(useSeaborn,false){}
+		public PyPlotInterface(bool useSeaborn) : this(useSeaborn,false,"python"){}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PythonProcess.PyPlotInterface"/> class.
+        /// </summary>
+        /// <param name="useSeaborn">If set to <c>true</c> use seaborn.</param>
+        /// <param name="debug">If set to <c>true</c> write python errors to console.</param>
+        public PyPlotInterface(bool useSeaborn, bool debug) : this(useSeaborn,debug,"python"){}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PythonProcess.PyPlotInterface"/> class.
 		/// </summary>
 		/// <param name="useSeaborn">If set to <c>true</c> use seaborn.</param>
 		/// <param name="debug">If set to <c>true</c> write python errors to console.</param>
-		public PyPlotInterface(bool useSeaborn, bool debug)
+        /// <param name="pythonInterpreter">Path and name of python interpreter.</param>
+        public PyPlotInterface(bool useSeaborn, bool debug, string pythonInterpreter)
 		{
 			_debug = debug;
 			_indent = 0;
@@ -158,7 +166,7 @@ namespace PythonInterface
 			//the -i option is necessary as python otherwise thinks it interacts with a script
 			//the -u option is for some reason necessary to allow multiple plots to appear ??
 			//maybe there are some internal buffering issues that -u removes
-			_pySI = new ProcessStartInfo("python","-i -u");
+            _pySI = new ProcessStartInfo(pythonInterpreter,"-i -u");
 			_pySI.UseShellExecute = false;//required to redirect standard streams
 			_pySI.CreateNoWindow = true;//don't create separate window
 			_pySI.RedirectStandardInput = true;//let us do the talking
