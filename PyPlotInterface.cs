@@ -115,7 +115,12 @@ namespace PythonInterface
             }
         }
 
-
+        internal PyTuple<double> AsPyTuple(string varName = "")
+        {
+            if (_rgb == null)
+                _rgb = new double[3];
+            return new PyTuple<double>(_rgb, varName);
+        }
 
         public PlotColor(double r, double g, double b)
         {
