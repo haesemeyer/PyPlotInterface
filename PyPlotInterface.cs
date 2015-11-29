@@ -78,8 +78,14 @@ namespace PythonInterface
 
 		#region Members
 
+        /// <summary>
+        /// The python interpreter process.
+        /// </summary>
 		private Process _pyInterp;
 
+        /// <summary>
+        /// The start infor for the python process
+        /// </summary>
 		private ProcessStartInfo _pySI;
 
 		/// <summary>
@@ -255,6 +261,9 @@ namespace PythonInterface
 				_pyInterp.StandardInput.WriteLine(Indent+text);
 		}
 
+        /// <summary>
+        /// Flushes the standard input.
+        /// </summary>
 		private void Flush()
 		{
 			if (_pyInterp != null)
@@ -387,7 +396,7 @@ namespace PythonInterface
         /// Transfers a scalar to the python process
         /// </summary>
         /// <returns>The python name of the scalar</returns>
-        /// <param name="d">The value to transfer</param>
+        /// <param name="v">The value to transfer</param>
         private string TransferValue(double v)
         {
             var value = new PyScalar<double>(v);
@@ -395,6 +404,11 @@ namespace PythonInterface
             return value.VarName;
         }
 
+        /// <summary>
+        /// Transfers a scalar to the python process
+        /// </summary>
+        /// <returns>The python name of the scalar</returns>
+        /// <param name="v">The value to transfer</param>
         private string TransferValue(int v)
         {
             var value = new PyScalar<int>(v);
@@ -587,11 +601,18 @@ namespace PythonInterface
             };
         }
 
+        /// <summary>
+        /// Closes the specified figure.
+        /// </summary>
+        /// <param name="figName">Figure name.</param>
         public void CloseFigure(string figName)
         {
             WriteLine("{0}.close({1})", PL, figName);
         }
 
+        /// <summary>
+        /// Closes all figures.
+        /// </summary>
         public void CloseAllFigures()
         {
             WriteLine("{0}.close('all')", PL);
@@ -601,8 +622,16 @@ namespace PythonInterface
 
 		#region DisposableSupport
 
+        /// <summary>
+        /// Indicates whether this instance is disposed
+        /// </summary>
+        /// <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
 		public bool IsDisposed{ get; private set; }
 
+        /// <summary>
+        /// Free unmanaged resources of this process
+        /// </summary>
+        /// <param name="disposing">If set to <c>true</c> disposing.</param>
 		private void Dispose(bool disposing)
 		{
 			if (disposing) 
@@ -621,6 +650,14 @@ namespace PythonInterface
 			}
 		}
 
+        /// <summary>
+        /// Releases all resource used by the <see cref="PythonInterface.PyPlotInterface"/> object.
+        /// </summary>
+        /// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="PythonInterface.PyPlotInterface"/>.
+        /// The <see cref="Dispose"/> method leaves the <see cref="PythonInterface.PyPlotInterface"/> in an unusable
+        /// state. After calling <see cref="Dispose"/>, you must release all references to the
+        /// <see cref="PythonInterface.PyPlotInterface"/> so the garbage collector can reclaim the memory that the
+        /// <see cref="PythonInterface.PyPlotInterface"/> was occupying.</remarks>
 		public void Dispose()
 		{
 			if (IsDisposed)
@@ -630,6 +667,10 @@ namespace PythonInterface
 			Dispose(true);
 		}
 
+        /// <summary>
+        /// Releases unmanaged resources and performs other cleanup operations before the
+        /// <see cref="PythonInterface.PyPlotInterface"/> is reclaimed by garbage collection.
+        /// </summary>
 		~PyPlotInterface()
 		{
 			if(!IsDisposed)
