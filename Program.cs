@@ -78,7 +78,7 @@ namespace PyPlotTest
             Y.Add(y3);
 			Console.WriteLine("Plotting");
 			PlotMulti(X, Y);
-			Plot(y, x);
+            Plot(y, x);
 			string f3 = Hist(y, 20);
             Console.WriteLine("Press return to close figure 3");
             Console.ReadLine();
@@ -86,9 +86,9 @@ namespace PyPlotTest
 			Console.WriteLine("Press return to close remaining figures");
 			Console.ReadLine();
             py.CloseAllFigures();
+			py.Dispose();
             Console.WriteLine("Press return to exit");
             Console.ReadLine();
-			py.Dispose();
 		}
 	}
 }
