@@ -371,7 +371,7 @@ namespace PythonInterface
 		private void OutputFilter(string outputLine)
 		{
             if (outputLine == null)
-                return "";
+                return;
 		}
 
 		/// <summary>
