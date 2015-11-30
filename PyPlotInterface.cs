@@ -348,6 +348,8 @@ namespace PythonInterface
 		/// <returns>Text that should be written back to the command window</returns>
 		private string ErrorFilter(string errorLine)
 		{
+            if (errorLine == null)
+                return "";
 			if (errorLine.Contains("Python "))
 			{
 				return errorLine;
@@ -368,7 +370,8 @@ namespace PythonInterface
 		/// <param name="outputLine">Output line.</param>
 		private void OutputFilter(string outputLine)
 		{
-			
+            if (outputLine == null)
+                return "";
 		}
 
 		/// <summary>
