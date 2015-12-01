@@ -443,23 +443,15 @@ namespace PythonInterface
         private void Decorate(PlotDecorators plotLabels)
 		{
             if(plotLabels.XLabel!="")
-                Write("ax.set_xlabel('{0}');",plotLabels.XLabel);
+                WriteLine("ax.set_xlabel('{0}')",plotLabels.XLabel);
             if(plotLabels.YLabel!="")
-                Write("ax.set_ylabel('{0}');",plotLabels.YLabel);
+                WriteLine("ax.set_ylabel('{0}')",plotLabels.YLabel);
             if(plotLabels.Title!="")
-                Write("ax.set_title('{0}');",plotLabels.Title);
+                WriteLine("ax.set_title('{0}')",plotLabels.Title);
             if (plotLabels.XLims != null)
-                Write("ax.set_xlim({0},{1});", plotLabels.XLims.Item1, plotLabels.XLims.Item2);
+                WriteLine("ax.set_xlim({0},{1})", plotLabels.XLims.Item1, plotLabels.XLims.Item2);
             if (plotLabels.YLims != null)
-                Write("ax.set_ylim({0},{1});", plotLabels.YLims.Item1, plotLabels.YLims.Item2);
-		}
-
-		/// <summary>
-		/// Ends the line of plotting commands adding figure re-fresh
-		/// </summary>
-        private void EndDrawCommands(string figureName)
-		{
-			WriteLine(figureName+".canvas.draw_idle()");
+                WriteLine("ax.set_ylim({0},{1})", plotLabels.YLims.Item1, plotLabels.YLims.Item2);
 		}
 
 		/// <summary>
@@ -477,7 +469,7 @@ namespace PythonInterface
 			if (nrows > 1 || ncols > 1)
 				throw new NotSupportedException("Currently multiple subplots are not supported!");
             string figureName = string.Format("fig_{0}", _figNum++);
-            Write("{0}, ax = {1}.subplots(nrows={2},ncols={3});",figureName,PL,nrows,ncols);
+            WriteLine("{0}, ax = {1}.subplots(nrows={2},ncols={3})",figureName,PL,nrows,ncols);
             return figureName;
 		}
 
@@ -537,10 +529,10 @@ namespace PythonInterface
 			if (y != null)
 			{
 				string y_name = Transfer1DArray(y);
-				Write("ax.plot({0},{1});", x_name, y_name);
+				WriteLine("ax.plot({0},{1})", x_name, y_name);
 			}
 			else
-				Write("ax.plot({0});", x_name);
+				WriteLine("ax.plot({0})", x_name);
 		}
 
         /// <summary>
@@ -559,7 +551,7 @@ namespace PythonInterface
                 throw new ArgumentOutOfRangeException("nBins", "nBins has to be >=1");
             string d_name = Transfer1DArray(data);
             string b_name = TransferValue(nBins);
-            Write("ax.hist({0},{1},normed={2},cumulative={3});", d_name, b_name,
+            WriteLine("ax.hist({0},{1},normed={2},cumulative={3})", d_name, b_name,
                 normalize ? "True" : "False", cumulative ? "True" : "False");
         }
 
@@ -589,8 +581,7 @@ namespace PythonInterface
 				string figName = Subplots();//creates figure and axis
 				CallPlot(x,y);//plots the data on the axis object
                 Decorate(plotLabels);//adds title and axis label decorations
-                EndDrawCommands(figName);//forces figure refresh and terminates the plot commands line
-				if(despine)
+                if(despine)
 				{
 					Despine();//uses seaborn to remove the top and right spine
 				}
@@ -658,8 +649,7 @@ namespace PythonInterface
 							CallPlot(list_x[i],list_y[i]);
 				}
                 Decorate(plotLabels);//adds title and axis label decorations
-                EndDrawCommands(figName);//forces figure refresh and terminates the plot commands line
-				if(despine)
+                if(despine)
 				{
 					Despine();//uses seaborn to remove the top and right spine
 				}
@@ -694,7 +684,6 @@ namespace PythonInterface
                 string figName = Subplots();//creates figure and axis
                 CallHist(x,nbins,normalize,cumulative);//draw histogram
                 Decorate(plotLabels);//adds title and axis label decorations
-                EndDrawCommands(figName);//forces figure refresh and terminates the plot commands line
                 if(despine)
                 {
                     Despine();//uses seaborn to remove the top and right spine
