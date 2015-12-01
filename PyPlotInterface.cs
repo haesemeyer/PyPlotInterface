@@ -244,9 +244,9 @@ namespace PythonInterface
 			//the -i option is necessary as python otherwise thinks it interacts with a script
 			//the -u option is for some reason necessary to allow multiple plots to appear ??
 			//maybe there are some internal buffering issues that -u removes
-            _pySI = new ProcessStartInfo(pythonInterpreter,"-i -u");
+            _pySI = new ProcessStartInfo(pythonInterpreter,"-i");
 			_pySI.UseShellExecute = false;//required to redirect standard streams
-			_pySI.CreateNoWindow = true;//don't create separate window
+            _pySI.CreateNoWindow = true;//don't create separate window
 			_pySI.RedirectStandardInput = true;//let us do the talking
 			_pySI.RedirectStandardError = true;
 			_pySI.RedirectStandardOutput = true;
@@ -297,8 +297,12 @@ namespace PythonInterface
 		/// <param name="arg">Argument list to replace format characters in format</param>
 		private void Write(string format, params object[] arg)
 		{
-			if(_pyInterp != null)
-				_pyInterp.StandardInput.Write(Indent+format, arg);
+            if (_pyInterp != null)
+            {
+                string text = Indent + string.Format(format, arg);
+                foreach(char c in text)
+                    _pyInterp.StandardInput.Write(c);
+            }
 		}
 
 		/// <summary>
@@ -307,8 +311,12 @@ namespace PythonInterface
 		/// <param name="text">The text to write</param>
 		private void Write(string text)
 		{
-			if(_pyInterp != null)
-				_pyInterp.StandardInput.Write(Indent+text);
+            if (_pyInterp != null)
+            {
+                text = Indent + text;
+                foreach(char c in text)
+                    _pyInterp.StandardInput.Write(c);
+            }
 		}
 
 		/// <summary>
@@ -318,9 +326,18 @@ namespace PythonInterface
 		/// <param name="arg">Argument list to replace format characters in format</param>
 		private void WriteLine(string format, params object[] arg)
 		{
-			if(_pyInterp != null)
-
-				_pyInterp.StandardInput.WriteLine(Indent+format, arg);
+            if (_pyInterp != null)
+            {
+                if (format == null || format == "")
+                    _pyInterp.StandardInput.WriteLine(Indent);
+                else
+                {
+                    string text = Indent + string.Format(format, arg);
+                    foreach (char c in text)
+                        _pyInterp.StandardInput.Write(c);
+                    _pyInterp.StandardInput.WriteLine();
+                }
+            }
 		}
 
 		/// <summary>
@@ -329,8 +346,18 @@ namespace PythonInterface
 		/// <param name="text">The text to write</param>
 		private void WriteLine(string text)
 		{
-			if(_pyInterp != null)
-				_pyInterp.StandardInput.WriteLine(Indent+text);
+            if (_pyInterp != null)
+            {
+                if (text == null || text == "")
+                    _pyInterp.StandardInput.WriteLine(Indent);
+                else
+                {
+                    text = Indent + text;
+                    foreach (char c in text)
+                        _pyInterp.StandardInput.Write(c);
+                    _pyInterp.StandardInput.WriteLine();
+                }
+            }
 		}
 
         /// <summary>
