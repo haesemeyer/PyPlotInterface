@@ -242,14 +242,13 @@ namespace PythonInterface
             _figNum = 0;
 			//Configure and start python interpreter
 			//the -i option is necessary as python otherwise thinks it interacts with a script
-			//the -u option is for some reason necessary to allow multiple plots to appear ??
 			//maybe there are some internal buffering issues that -u removes
             _pySI = new ProcessStartInfo(pythonInterpreter,"-i");
 			_pySI.UseShellExecute = false;//required to redirect standard streams
             _pySI.CreateNoWindow = true;//don't create separate window
 			_pySI.RedirectStandardInput = true;//let us do the talking
 			_pySI.RedirectStandardError = true;
-			_pySI.RedirectStandardOutput = true;
+            _pySI.RedirectStandardOutput = true;
 
 			_pyInterp = new Process();
 			_pyInterp.StartInfo = _pySI;
@@ -413,6 +412,7 @@ namespace PythonInterface
 				_indent--;
 				WriteLine("");
 			}
+            WriteLine("");
 		}
 
 		/// <summary>
@@ -585,6 +585,7 @@ namespace PythonInterface
 				{
 					Despine();//uses seaborn to remove the top and right spine
 				}
+                Thread.Sleep(100);
 				TerminateIndent();//leaves the indented block structure
 				Flush();//forces transfer to python process
                 return figName;
@@ -653,6 +654,7 @@ namespace PythonInterface
 				{
 					Despine();//uses seaborn to remove the top and right spine
 				}
+                Thread.Sleep(100);
 				TerminateIndent();//leaves the indented block structure
 				Flush();//forces transfer to python process
                 return figName;
@@ -688,6 +690,7 @@ namespace PythonInterface
                 {
                     Despine();//uses seaborn to remove the top and right spine
                 }
+                Thread.Sleep(100);
                 TerminateIndent();//leaves the indented block structure
                 Flush();//forces transfer to python process
                 return figName;
@@ -733,11 +736,11 @@ namespace PythonInterface
 		{
 			if (disposing) 
 			{
+                Thread.Sleep(100);
 				WriteLine("quit()");
-				Thread.Sleep(500);
 				//clean up resources here
 				if (_pyInterp != null) {
-					if (_pyInterp.WaitForExit(10000))
+					if (_pyInterp.WaitForExit(5000))
 						Console.WriteLine("Exited");
 					else
 						Console.WriteLine("Did not exit");
