@@ -410,7 +410,7 @@ namespace PythonInterface
 				_indent--;
 				WriteLine("");
 			}
-            WriteLine("");
+            WriteLine("{0}.draw()",PL);
 		}
 
 		/// <summary>
