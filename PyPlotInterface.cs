@@ -583,7 +583,6 @@ namespace PythonInterface
 				{
 					Despine();//uses seaborn to remove the top and right spine
 				}
-                Thread.Sleep(100);
 				TerminateIndent();//leaves the indented block structure
 				Flush();//forces transfer to python process
                 return figName;
@@ -652,7 +651,6 @@ namespace PythonInterface
 				{
 					Despine();//uses seaborn to remove the top and right spine
 				}
-                Thread.Sleep(100);
 				TerminateIndent();//leaves the indented block structure
 				Flush();//forces transfer to python process
                 return figName;
@@ -688,7 +686,6 @@ namespace PythonInterface
                 {
                     Despine();//uses seaborn to remove the top and right spine
                 }
-                Thread.Sleep(100);
                 TerminateIndent();//leaves the indented block structure
                 Flush();//forces transfer to python process
                 return figName;
@@ -734,7 +731,6 @@ namespace PythonInterface
 		{
 			if (disposing) 
 			{
-                Thread.Sleep(100);
 				WriteLine("quit()");
 				//clean up resources here
 				if (_pyInterp != null) {
