@@ -20,7 +20,9 @@ REQUIRES:
 PYTHON (www.python.org)
 MATPLOTLIB (http://matplotlib.org/)
 NUMPY (http://www.numpy.org/)
+IPython and Jupyter_console (http://ipython.org/, https://jupyter.org/)
+[Requirements can be easily satisfied by using a python package such as Anaconda]
 
 
 Tested on:
-Mono, MacOSX 10.10, Python 3.5
+Mono, MacOSX 10.10, Python 3.5, IPython 4.0

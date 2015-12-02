@@ -220,14 +220,14 @@ namespace PythonInterface
 		/// Creates a new PyPlotInterface
 		/// </summary>
 		/// <param name="useSeaborn">If set to <c>true</c> use seaborn.</param>
-		public PyPlotInterface(bool useSeaborn) : this(useSeaborn,false,"python"){}
+		public PyPlotInterface(bool useSeaborn) : this(useSeaborn,false,"ipython"){}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PythonProcess.PyPlotInterface"/> class.
         /// </summary>
         /// <param name="useSeaborn">If set to <c>true</c> use seaborn.</param>
         /// <param name="debug">If set to <c>true</c> write python errors to console.</param>
-        public PyPlotInterface(bool useSeaborn, bool debug) : this(useSeaborn,debug,"python"){}
+        public PyPlotInterface(bool useSeaborn, bool debug) : this(useSeaborn,debug,"ipython"){}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PythonProcess.PyPlotInterface"/> class.
@@ -240,10 +240,9 @@ namespace PythonInterface
 			_debug = debug;
 			_indent = 0;
             _figNum = 0;
-			//Configure and start python interpreter
-			//the -i option is necessary as python otherwise thinks it interacts with a script
-			//maybe there are some internal buffering issues that -u removes
-            _pySI = new ProcessStartInfo(pythonInterpreter,"-i");
+			//Configure and start iPython kernel and jupyter_console
+            //talking directly to iPython does not work!
+            _pySI = new ProcessStartInfo(pythonInterpreter,"console");
 			_pySI.UseShellExecute = false;//required to redirect standard streams
             _pySI.CreateNoWindow = true;//don't create separate window
 			_pySI.RedirectStandardInput = true;//let us do the talking
@@ -280,9 +279,8 @@ namespace PythonInterface
 				_useSeaborn = true;
 				WriteLine("import seaborn as {0}", SNS);
 			}
-			//make plotting interactive
-			WriteLine("from matplotlib import interactive");
-			WriteLine("interactive(True)");
+			//make plotting interactive using ipython magic
+            WriteLine("%matplotlib qt4");
 			Flush();
 
 		}
