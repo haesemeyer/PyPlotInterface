@@ -269,8 +269,6 @@ namespace PythonInterface
 			_pyInterp.BeginErrorReadLine();
 			//perform standard imports
 			WriteLine("import matplotlib");
-            //TODO: Offer backend choice?
-			WriteLine("matplotlib.use('Qt4Agg')");
             //WriteLine("matplotlib.use('TkAgg')");
 			WriteLine("import numpy as {0}",NP);
 			WriteLine("import matplotlib.pyplot as {0}", PL);
