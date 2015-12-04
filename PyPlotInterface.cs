@@ -49,6 +49,8 @@ namespace PythonInterface
 
         public Tuple<double,double> YLims;
 
+        public List<PlotColor> ColorCycle;
+
         public PlotDecorators(string title, string xlabel, string ylabel)
         {
             Title = title;
