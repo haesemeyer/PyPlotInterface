@@ -508,6 +508,19 @@ namespace PythonInterface
             return value.VarName;
         }
 
+        /// <summary>
+        /// Cycles through the list, returning the element
+        /// at index with wrap-around
+        /// </summary>
+        /// <param name="l">The list to cycle</param>
+        /// <param name="index">The index to retrieve</param>
+        private T? Cycle<T>(List<T> l, int index) where T:struct
+        {
+            if (l == null || l.Count == 0)
+                return null;
+            return l[index % l.Count];
+        }
+
 		/// <summary>
 		/// Transfers one or two variables to the python process and adds
 		/// it to the current plotting calls.
@@ -584,9 +597,7 @@ namespace PythonInterface
 				//plot
 				SetAxesStyle(gridStyle);//sets the plotting style
 				string figName = Subplots();//creates figure and axis
-                PlotColor? col = null;
-                if(plotLabels.ColorCycle!=null && plotLabels.ColorCycle.Count>0)
-                    col = plotLabels.ColorCycle[0];
+                PlotColor? col = Cycle(plotLabels.ColorCycle,0);
                 CallPlot(x,y,col);//plots the data on the axis object
                 Decorate(plotLabels);//adds title and axis label decorations
                 if(despine)
@@ -646,9 +657,7 @@ namespace PythonInterface
 				{
                     for(int i = 0;i<list_x.Count;i++)
                     {
-                        PlotColor? col = null;
-                        if(plotLabels.ColorCycle!=null && plotLabels.ColorCycle.Count>0)
-                            col = plotLabels.ColorCycle[i % plotLabels.ColorCycle.Count];
+                        PlotColor? col = Cycle(plotLabels.ColorCycle,i);
                         CallPlot(list_x[i],null,col);
                     }
 				}
@@ -657,17 +666,13 @@ namespace PythonInterface
 					if(list_x.Count==1)
                         for(int i = 0;i<list_y.Count;i++)
                         {
-                            PlotColor? col = null;
-                            if(plotLabels.ColorCycle!=null && plotLabels.ColorCycle.Count>0)
-                                col = plotLabels.ColorCycle[i % plotLabels.ColorCycle.Count];
+                            PlotColor? col = Cycle(plotLabels.ColorCycle,i);
                             CallPlot(list_x[0],list_y[i],col);
                         }
 					else
 						for(int i=0;i<list_x.Count;i++)
                         {
-                            PlotColor? col = null;
-                            if(plotLabels.ColorCycle!=null && plotLabels.ColorCycle.Count>0)
-                                col = plotLabels.ColorCycle[i % plotLabels.ColorCycle.Count];
+                            PlotColor? col = Cycle(plotLabels.ColorCycle,i);
                             CallPlot(list_x[i],list_y[i],col);
                         }
 				}
