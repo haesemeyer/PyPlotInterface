@@ -58,6 +58,7 @@ namespace PythonInterface
             YLabel = ylabel;
             XLims = null;
             YLims = null;
+            ColorCycle = null;
         }
     }
 
@@ -271,7 +272,6 @@ namespace PythonInterface
 			_pyInterp.BeginErrorReadLine();
 			//perform standard imports
 			WriteLine("import matplotlib");
-            //WriteLine("matplotlib.use('TkAgg')");
 			WriteLine("import numpy as {0}",NP);
 			WriteLine("import matplotlib.pyplot as {0}", PL);
 			if (useSeaborn)
@@ -514,23 +514,30 @@ namespace PythonInterface
 		/// </summary>
 		/// <param name="x">The x coordinates</param>
 		/// <param name="y">The y coordinates</param>
-		private void CallPlot(double[] x, double[] y)
+        private void CallPlot(double[] x, double[] y, PlotColor? col)
 		{
 			if (x == null)
 				throw new ArgumentNullException("x", "X series has to exist");
 			if (y != null && y.Length != x.Length)
 				throw new ArgumentException("If y series is present it needs to have same length as x series");
+            //build string that represents additional plotting arguments
+            StringBuilder varArg = new StringBuilder();
+            if (col != null)
+            {
+                var t = col.Value.AsPyTuple();
+                WriteLine(t.EncodingStatement);
+                varArg.Append(",color=");
+                varArg.Append(t.VarName);
+            }
 			//create numpy array objects in python process
 			string x_name = Transfer1DArray(x);
-			//all commands dealing with single figure need to occur on one line
-			//otherwise matplotlib does not update the canvas...
 			if (y != null)
 			{
 				string y_name = Transfer1DArray(y);
-				WriteLine("ax.plot({0},{1})", x_name, y_name);
+                WriteLine("ax.plot({0},{1}{2})", x_name, y_name,varArg.ToString());
 			}
 			else
-				WriteLine("ax.plot({0})", x_name);
+                WriteLine("ax.plot({0}{1})", x_name,varArg.ToString());
 		}
 
         /// <summary>
@@ -577,7 +584,10 @@ namespace PythonInterface
 				//plot
 				SetAxesStyle(gridStyle);//sets the plotting style
 				string figName = Subplots();//creates figure and axis
-				CallPlot(x,y);//plots the data on the axis object
+                PlotColor? col = null;
+                if(plotLabels.ColorCycle!=null && plotLabels.ColorCycle.Count>0)
+                    col = plotLabels.ColorCycle[0];
+                CallPlot(x,y,col);//plots the data on the axis object
                 Decorate(plotLabels);//adds title and axis label decorations
                 if(despine)
 				{
@@ -634,17 +644,32 @@ namespace PythonInterface
 				string figName = Subplots();//creates figure and axis
 				if(list_y == null)
 				{
-					foreach(var x in list_x)
-						CallPlot(x,null);
+                    for(int i = 0;i<list_x.Count;i++)
+                    {
+                        PlotColor? col = null;
+                        if(plotLabels.ColorCycle!=null && plotLabels.ColorCycle.Count>0)
+                            col = plotLabels.ColorCycle[i % plotLabels.ColorCycle.Count];
+                        CallPlot(list_x[i],null,col);
+                    }
 				}
 				else
 				{
 					if(list_x.Count==1)
-						foreach(var y in list_y)
-							CallPlot(list_x[0],y);
+                        for(int i = 0;i<list_y.Count;i++)
+                        {
+                            PlotColor? col = null;
+                            if(plotLabels.ColorCycle!=null && plotLabels.ColorCycle.Count>0)
+                                col = plotLabels.ColorCycle[i % plotLabels.ColorCycle.Count];
+                            CallPlot(list_x[0],list_y[i],col);
+                        }
 					else
 						for(int i=0;i<list_x.Count;i++)
-							CallPlot(list_x[i],list_y[i]);
+                        {
+                            PlotColor? col = null;
+                            if(plotLabels.ColorCycle!=null && plotLabels.ColorCycle.Count>0)
+                                col = plotLabels.ColorCycle[i % plotLabels.ColorCycle.Count];
+                            CallPlot(list_x[i],list_y[i],col);
+                        }
 				}
                 Decorate(plotLabels);//adds title and axis label decorations
                 if(despine)
