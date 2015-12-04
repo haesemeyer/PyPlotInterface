@@ -51,6 +51,10 @@ namespace PyPlotTest
             var Hist = py.MakeHistFunction(labels,true,true);
             labels.Title = "Test of series plot";
             labels.YLims = new Tuple<double, double>(-5, 5);
+            labels.ColorCycle = new List<PlotColor>();
+            labels.ColorCycle.Add(new PlotColor(0.7, 0.4, 0.7));
+            labels.ColorCycle.Add(new PlotColor());
+            labels.ColorCycle.Add(new PlotColor(0.7, 0.7, 0.3));
             var PlotMulti = py.MakeSeriesPlotFunction(labels);
 
 			//create our plot data
