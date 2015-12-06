@@ -296,7 +296,7 @@ namespace PythonInterface
 		{
             if (_pyInterp != null)
             {
-                string text = Indent + string.Format(format, arg);
+                string text = string.Format(format, arg);
                 foreach(char c in text)
                     _pyInterp.StandardInput.Write(c);
             }
@@ -306,11 +306,10 @@ namespace PythonInterface
 		/// Writes text to the standard input of the python process
 		/// </summary>
 		/// <param name="text">The text to write</param>
-		private void Write(string text)
+        private void Write(string text)
 		{
             if (_pyInterp != null)
             {
-                text = Indent + text;
                 foreach(char c in text)
                     _pyInterp.StandardInput.Write(c);
             }
