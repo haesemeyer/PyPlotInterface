@@ -430,7 +430,7 @@ namespace PythonInterface
 		private void Despine()
 		{
 			if(_useSeaborn)
-				WriteLine("sns.despine()");
+                WriteLine("{0}.despine()",SNS);
 		}
 
 		/// <summary>
