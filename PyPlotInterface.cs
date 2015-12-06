@@ -639,13 +639,13 @@ namespace PythonInterface
 					{
 						foreach(double[] y in list_y)
 							if(y.Length != list_x[0].Length)
-								throw new ArgumentException("At least on y-series did not have same length as x-series");
+								throw new ArgumentException("At least one y-series did not have same length as x-series");
 					}
 					else
 					{
 						for(int i = 0;i<list_x.Count;i++)
 							if(list_x[i].Length != list_y[i].Length)
-								throw new ArgumentException("At least on y-series did not have same length as corresponding x-series");
+								throw new ArgumentException("At least one y-series did not have same length as corresponding x-series");
 					}
 				}
 
