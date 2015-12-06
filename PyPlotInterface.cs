@@ -439,12 +439,12 @@ namespace PythonInterface
 		/// <param name="PlotLabels">The plot labels</param>
         private void Decorate(PlotDecorators plotLabels)
 		{
-            if(plotLabels.XLabel!="")
-                WriteLine("ax.set_xlabel('{0}')",plotLabels.XLabel);
-            if(plotLabels.YLabel!="")
-                WriteLine("ax.set_ylabel('{0}')",plotLabels.YLabel);
-            if(plotLabels.Title!="")
-                WriteLine("ax.set_title('{0}')",plotLabels.Title);
+            if (plotLabels.XLabel != null && plotLabels.XLabel != "")
+                WriteLine("ax.set_xlabel('{0}')", plotLabels.XLabel);
+            if (plotLabels.YLabel != null && plotLabels.YLabel != "")
+                WriteLine("ax.set_ylabel('{0}')", plotLabels.YLabel);
+            if (plotLabels.Title != null && plotLabels.Title != "")
+                WriteLine("ax.set_title('{0}')", plotLabels.Title);
             if (plotLabels.XLims != null)
                 WriteLine("ax.set_xlim({0},{1})", plotLabels.XLims.Item1, plotLabels.XLims.Item2);
             if (plotLabels.YLims != null)
